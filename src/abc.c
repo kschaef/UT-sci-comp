@@ -28,9 +28,16 @@ int main(int argc, char *argv[]){
 	// -s std socks
 	// -n number of pairs (small, large)
 
-  while ((c = getopt (argc, argv, "u:p:m:s:n:")) != -1)
+  while ((c = getopt (argc, argv, "hu:p:m:s:n:")) != -1)
     switch (c)
       {
+      case 'h':
+	printf("options: \n\t-u: count of unique socks\n");
+	printf("\t-p: count of paired socks (e.g. 1 pair = 2 socks)\n");
+	printf("\t-m: estimated amount of total socks\n");
+	printf("\t-s: error for total socks estimate (default is m / 2)\n");
+	printf("\t-n: \'small\' or \'large\' for proportion of paired socks\n");
+	return(0);
       case 'u':
 	uniqueCount = atoi(optarg);
 	break;
