@@ -10,7 +10,8 @@
 
 int main(int argc, char *argv[]){
 
-  int c, index, argCount, meanSocks, stdSocks, uniqueCount, pairedCount;
+  int c, index, argCount, meanSocks, stdSocks, uniqueCount, pairedCount, nbR;
+  float alpha, beta, nbP;
   char *pairType = malloc(10);
   char *tmp = malloc(10);
   argCount = 0;
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]){
       }
 
   if (stdSocks == 0){
-    stdSocks = meanSocks / 2;
+    stdSocks = meanSocks / 2; // integer division intentional
   }
 
   printf("Using: \n\t%d unique socks\n", uniqueCount);
@@ -81,8 +82,18 @@ int main(int argc, char *argv[]){
   printf("\t%d estimated total socks +- %d socks\n", meanSocks, stdSocks);
   printf("\t%s proportion of paired socks\n", pairType);
   
-  // build prior params from inputs
 
+
+  // build prior params from inputs
+  nbP = meanSocks / (stdSocks * stdSocks);
+  nbR = meanSocks * nbP / (1. - nbP);  // parameters for gsl are P and R - 1
+
+  if(strcmp(pairType, "small") == 0){
+    alpha = 15; // CI (.7, .98), median = .9 
+  } else {
+    alpha = 30; // CI (.8, .99(, median = .95
+  }
+  beta = 2;
 
   // call sock_sim(...) in parallel, returns BigVector of matrix
   // which has n_socks, n_odd, n_pairs, prop_pairs, logical_flag
