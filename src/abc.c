@@ -8,6 +8,7 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_statistics_double.h>
 #include <gsl_sort_float.h>
+#include "helper.h"
 
 #define iter 4
 
@@ -138,6 +139,12 @@ int main(int argc, char *argv[]){
     }
   }
 
+  // write to file
+  printVector("num_socks.dat", nSocks, j);
+  printVector("num_pairs.dat", nPairs, j);
+  printVector("num_odd.dat", nOdd, j);
+  printVector("prop_pairs.dat", propPairs, j);
+
   // get median estimates
   gsl_sort(nSocks, 1, j);
   gsl_sort(nPairs, 1, j);
@@ -154,7 +161,6 @@ int main(int argc, char *argv[]){
   printf("Estimated number of unmatched socks: %d\n", (int) medOdd);
   printf("Estimated proportion of paired socks: %.3lf\n", medPropPairs);
 
-  // TODO: write data
 
   free(nSocks); free(nPairs); free(nOdd); free(propPairs);
 
