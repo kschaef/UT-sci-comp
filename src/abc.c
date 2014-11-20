@@ -18,6 +18,7 @@ int main(int argc, char *argv[]){
   meanSocks = 30;
   uniqueCount = 11;
   pairedCount = 0;
+  pairType = "large";
 
 // I/O for all variables: sample counts 1 & 2, sample size, 
   // sock prior, pair prior
@@ -51,6 +52,10 @@ int main(int argc, char *argv[]){
         stdSocks = atoi(optarg);
         break;
       case 'n':
+	if (strcmp(optarg, "small") != 0 && strcmp(optarg, "large") != 0){
+          fprintf(stderr, "-n requires either 'small' or 'large'\n");
+          return(1);
+        }
         strcpy(pairType, optarg);
         break;
       case '?':
@@ -66,15 +71,16 @@ int main(int argc, char *argv[]){
       default:
         abort ();
       }
-	printf("mean = %d, std = %d, size = %s\n", meanSocks, stdSocks, pairType);
 
+  if (stdSocks == 0){
+    stdSocks = meanSocks / 2;
+  }
 
-     for (index = optind; index < argc - 1; index+2){
-        uniqueCount = atoi(argv[index]);
-	pairedCount = atoi(argv[index + 1]);
-        printf ("Non-option argument %s\n", argv[index]);
-     }
-
+  printf("Using: \n\t%d unique socks\n", uniqueCount);
+  printf("\t%d paired socks\n", pairedCount);
+  printf("\t%d estimated total socks +- %d socks\n", meanSocks, stdSocks);
+  printf("\t%s proportion of paired socks\n", pairType);
+  
   // build prior params from inputs
 
 
