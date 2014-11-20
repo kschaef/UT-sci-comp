@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
   meanSocks = 30;
   uniqueCount = 11;
   pairedCount = 0;
-  pairType = "large";
+  pairType = "small";
 
 
   int i, j, k;
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
 
 
   // call sock_sim(...) in parallel, returns BigVector of matrix
-  // which has n_socks, n_odd, n_pairs, prop_pairs, logical_flag
+  // which has n_socks, n_pairs, n_odd, prop_pairs, logical_flag
 
   // loop over BV, add good data to file
 
