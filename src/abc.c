@@ -7,6 +7,7 @@
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_statistics_double.h>
+#include <gsl_sort_float.h>
 
 int main(int argc, char *argv[]){
 
@@ -21,7 +22,13 @@ int main(int argc, char *argv[]){
   pairedCount = 0;
   pairType = "large";
 
-// I/O for all variables: sample counts 1 & 2, sample size, 
+
+  int i, j, k;
+  double *nSocks, *nPairs, *nOdd, *propPairs;
+  int BigVector [10000 * 5];
+  double medSocks, medPairs, medOdd, medPropPairs;
+
+  // I/O for all variables: sample counts 1 & 2, sample size, 
   // sock prior, pair prior
 
 	// -u unique socks
@@ -101,9 +108,44 @@ int main(int argc, char *argv[]){
 
   // loop over BV, add good data to file
 
+  // get size of good values
+  j = 0;
+  for (i = 4; i < 50000; i+5){
+    if(BigVector[i] == 1){
+      j++;
+    }
+  }
+  // alloc vectors
+  nSocks = (double*) malloc(j * sizeof(double));
+  nPairs = (double*) malloc(j * sizeof(double));
+  nOdd = (double*) malloc(j * sizeof(double));
+  propPairs = (double*) malloc(j * sizeof(double));  
+
+  // fill vectors
+  k = 0;
+  for(i = 0; i < 50000; i+5){
+    if (BigVector[i + 4] == 1){
+      nSocks[k] = BigVector[i];
+      nPairs[k] = BigVector[i + 1];
+      nOdd[k] = BigVector[i + 2];
+      propPairs[k] = BigVector[i + 3];
+    }
+  }
 
   // get median estimates
+  gsl_sort(nSocks, 1, j);
+  gsl_sort(nPairs, 1, j);
+  gsl_sort(nOdd, 1, j);
+  gsl_sort(propPairs, 1, j);
 
+  medSocks = gsl_stats_median_from_sorted_data(nSocks, 1, j);
+  medPairs = gsl_stats_median_from_sorted_data(nPairs, 1, j);
+  medOdd = gsl_stats_median_from_sorted_data(nOdd, 1, j);
+  medPropPairs = gsl_stats_median_from_sorted_data(propPairs, 1, j);
+  
+  // TODO: write data, print medians
+
+  free(nSocks); free(nPairs); free(nOdd); free(propPairs);
 
 
   return(0);
