@@ -2,19 +2,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pylab import savefig
 
-with open('num_pairs.dat') as f0:
+with open('bin/num_pairs.dat') as f0:
   tmp = f0.readlines()
 nPairs = [float(x.rstrip()) for x in tmp]
 
-with open('num_odd.dat') as f1:
+with open('bin/num_odd.dat') as f1:
   tmp = f1.readlines()
 nOdd = [float(x.rstrip()) for x in tmp]
 
-with open('prop_pairs.dat') as f2:
+with open('bin/prop_pairs.dat') as f2:
   tmp = f2.readlines()
 propPairs = [float(x.rstrip()) for x in tmp]
 
-with open('num_socks.dat') as f3:
+with open('bin/num_socks.dat') as f3:
   tmp = f3.readlines()
 nSocks = [float(x.rstrip()) for x in tmp]
 
@@ -51,5 +51,5 @@ plt.title('Posterior on Proportion Paired')
 plt.grid(True)
 plt.hist(np.array(propPairs), 20, normed=1, facecolor='b', alpha = 0.75)
 
-plt.savefig("sock_posteriors.png", dpi = 120)
+plt.savefig("bin/sock_posteriors.png", dpi = 120)
 

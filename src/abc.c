@@ -140,10 +140,10 @@ int main(int argc, char *argv[]){
   }
 
   // write to file
-  printVector("num_socks.dat", nSocks, j);
-  printVector("num_pairs.dat", nPairs, j);
-  printVector("num_odd.dat", nOdd, j);
-  printVector("prop_pairs.dat", propPairs, j);
+  printVector("bin/num_socks.dat", nSocks, j);
+  printVector("bin/num_pairs.dat", nPairs, j);
+  printVector("bin/num_odd.dat", nOdd, j);
+  printVector("bin/prop_pairs.dat", propPairs, j);
 
   // get median estimates
   gsl_sort(nSocks, 1, j);

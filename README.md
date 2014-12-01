@@ -4,11 +4,12 @@ This program runs the ABC algorithm for an example situation with Tiny Data: est
 
 Before running the Makefile, please be sure to load both the gsl and 
 Python 2.7.3 modules. This can be done with `module load gsl` and 
-`module load python/2.7.3-epd-7.3.2`, respectively.  
+`module load python/2.7.3-epd-7.3.2`, respectively. You will also need to 
+have enabled X11 forwarding in order to generate and view the plots.  
 
-A default case will be run simply calling the executable `./abc.exe`.
+A default case will be run simply calling the executable `bin/abc.exe` or `make` from the main project folder.
 
-Calling `./abc.exe -h` will describe the options available for running your own case. These options are also described here for convenience:
+Calling `bin/abc.exe -h` will describe the options available for running your own case. These options are also described here for convenience:
 
 options:
 
@@ -24,4 +25,5 @@ options:
 
 You can get plots of the posterior distributions for unique (odd) socks, paired socks, total socks, and proportion of paired socks by calling `make plots` after running abc.exe with your options. If you would like the plots for the default case, you can simply run `make default_plots` which will call abc.exe for you.
 
-
+The .png for these plots, along with the data files for creating the plots, 
+will be stored in the `bin` folder with the executable. 
