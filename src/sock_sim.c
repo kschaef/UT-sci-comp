@@ -75,6 +75,9 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
 
    //sample from generated population
    gsl_ran_choose(r,gen_samp,n_picked,gen_pop,n_socks,sizeof(double));
+ 
+   //sort sample
+   gsl_sort(gen_samp,1,n_picked);
 
    //count the number of pairs/odd in sample
    temp_pairs = 0.;
