@@ -48,13 +48,13 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
    //double gen_pop[(int) n_socks];
    for(j=0;j<2*n_pairs;j++){
 
-     gen_pop[2*j] = j;
-     gen_pop[(2*j)+1] = j;
+     gen_pop[2*j] = (double) j;
+     gen_pop[(2*j)+1] = (double) j;
 
    }
    for(j=2*n_pairs;j<n_socks;j++){
 
-     gen_pop[j]=j;
+     gen_pop[j]= (double) j;
 
    }
 
