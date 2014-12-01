@@ -121,6 +121,7 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
  }
 
  printf("in function, match count is %d\n",match_count);
+ gsl_rng_free(r);
  return(match_count);
 
 }
