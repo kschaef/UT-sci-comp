@@ -7,7 +7,7 @@ Python 2.7.3 modules. This can be done with `module load gsl` and
 `module load python/2.7.3-epd-7.3.2`, respectively. You will also need to 
 have enabled X11 forwarding in order to generate and view the plots.  
 
-A default case will be run simply calling the executable `bin/abc.exe` or `make` from the main project folder.
+A default case will be run simply calling the executable `bin/abc.exe` after calling `make` from the main project folder.
 
 Calling `bin/abc.exe -h` will describe the options available for running your own case. These options are also described here for convenience:
 
