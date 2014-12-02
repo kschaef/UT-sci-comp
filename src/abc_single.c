@@ -10,7 +10,7 @@
 #include <gsl_sort_float.h>
 #include "helper.h"
 
-#define iter 10
+#define iter 100
 
 int main(int argc, char *argv[]){
 
@@ -172,8 +172,11 @@ int main(int argc, char *argv[]){
   medPairs = gsl_stats_median_from_sorted_data(nPairs, 1, match_count);
   medOdd = gsl_stats_median_from_sorted_data(nOdd, 1, match_count);
   medPropPairs = gsl_stats_median_from_sorted_data(propPairs, 1, match_count);
- 
-  printf("\nEstimated number of socks: %d\n", (int) medSocks);
+
+  //for the stdout summary
+  int est_socks = (int) 2*medPairs + medOdd;
+  
+  printf("\nEstimated number of socks: %d\n", est_socks);
   printf("Estimated number of pairs: %d\n", (int) medPairs);
   printf("Estimated number of unmatched socks: %d\n", (int) medOdd);
   printf("Estimated proportion of paired socks: %.3lf\n", medPropPairs);
