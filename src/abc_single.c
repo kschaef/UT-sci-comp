@@ -10,7 +10,7 @@
 #include <gsl_sort_float.h>
 #include "helper.h"
 
-#define iter 100
+#define iter 10000
 
 int main(int argc, char *argv[]){
 
