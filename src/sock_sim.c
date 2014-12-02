@@ -40,13 +40,14 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
    //sample, get n_pairs and n_odd
    n_socks = gsl_ran_negative_binomial(r,prior_p,prior_n);
    prop_pairs = gsl_ran_beta(r,alpha,beta);
-   n_pairs = floor(.5*(n_socks*prop_pairs));
+   //n_pairs = floor(.5*(n_socks*prop_pairs));
+   n_pairs = round(floor(.5*n_socks)*prop_pairs);
    n_odd = n_socks - 2*n_pairs;
 
    //make generated population
    double *gen_pop = (double *)malloc(sizeof(double)*n_socks);
    //double gen_pop[(int) n_socks];
-   for(j=0;j<2*n_pairs;j++){
+   for(j=0;j<n_pairs;j++){
 
      gen_pop[2*j] = (double) j;
      gen_pop[(2*j)+1] = (double) j;
