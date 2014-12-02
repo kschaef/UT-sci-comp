@@ -9,8 +9,11 @@ abc_single.o: abc_single.c helper.h
 	$(CC) -c $(CFLAGS) $< $(LDFLAGS)
 sock_sim.o: sock_sim.c
 	$(CC) -c $(CFLAGS) $< $(LDFLAGS)
-.PHONY: clean
+.PHONY: clean dat_clean plots
 clean:
 	rm *.o proj
 dat_clean:
 	rm *.dat
+
+plots: hist_plots.py
+	python hist_plots.py

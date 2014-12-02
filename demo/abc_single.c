@@ -75,7 +75,8 @@ int main(int argc, char *argv[]){
           fprintf(stderr, "-n requires either 'small' or 'large'\n");
           return(1);
         }
-        strcpy(pairType, optarg);
+	pairType = optarg;
+        //strcpy(pairType, optarg);
         break;
       case '?':
         if (optopt == 'm' || optopt == 's' || optopt == 'p')
@@ -90,7 +91,6 @@ int main(int argc, char *argv[]){
       default:
         abort ();
       }
-
   if (stdSocks == 0){
     stdSocks = meanSocks / 2; // integer division intentional
   }
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]){
   match_count = sock_sim(nbR,nbP,alpha,beta,pairedCount,uniqueCount,BigVector,iter);
 
   //check match count
-  printf("match count is %d\n",match_count);
+  //printf("match count is %d\n",match_count);
 
   // loop over BV, add good data to file
 
