@@ -1,5 +1,5 @@
 CC := icc
-CFLAGS := #-g -O0
+CFLAGS := -O0 -openmp
 LDFLAGS := -I$(TACC_GSL_INC) -I$(TACC_GSL_INC)/gsl
 LDLIBS := -L$(TACC_GSL_LIB) -lgsl -lgslcblas -limf -lm
 

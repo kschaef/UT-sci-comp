@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
-//#include<mpi.h>
+#include<omp.h>
 #include<gsl/gsl_randist.h>
 #include<gsl/gsl_rng.h>
 gsl_rng *r; //global generator
@@ -33,6 +33,7 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
  
  printf("prior-n = %f,prior-p = %f,alpha = %f,beta = %f\n",prior_n,prior_p,alpha,beta);
 
+#pragma omp parallel for
  for(i=0;i<iter;i++){  
 
   //printf("in loop i=%d\n",i);
@@ -96,7 +97,7 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
    }
    temp_paired = 2*temp_pairs;
 
-   //printf("temp paired = %f,temp odd = %f\n",temp_paired,temp_odd);
+   printf("temp paired = %f,temp odd = %f\n",temp_paired,temp_odd);
 
    //allocate big vector
    BigVector[5*i] = (double) n_socks;
