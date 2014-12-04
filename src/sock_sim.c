@@ -29,10 +29,9 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
  T = gsl_rng_default;
  r = gsl_rng_alloc(T); 
 
- printf("made it in sock sim\n");
+ //printf("made it in sock sim\n");
  
- printf("prior-n = %f,prior-p = %f,alpha = %f,beta = %f\n",prior_n,prior_p,alpha,beta);
-
+ //printf("prior-n = %f,prior-p = %f,alpha = %f,beta = %f\n",prior_n,prior_p,alpha,beta);
 #pragma omp parallel for
  for(i=0;i<iter;i++){  
 
@@ -97,7 +96,7 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
    }
    temp_paired = 2*temp_pairs;
 
-   printf("temp paired = %f,temp odd = %f\n",temp_paired,temp_odd);
+   //printf("temp paired = %f,temp odd = %f\n",temp_paired,temp_odd);
 
    //allocate big vector
    BigVector[5*i] = (double) n_socks;
@@ -125,7 +124,7 @@ int sock_sim(double prior_r,double prior_p,double alpha,double beta,double obs_p
    free(gen_samp);
  }
 
- printf("in function, match count is %d\n",match_count);
+ //printf("in function, match count is %d\n",match_count);
  gsl_rng_free(r);
  return(match_count);
 
