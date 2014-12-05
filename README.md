@@ -27,3 +27,10 @@ You can get plots of the posterior distributions for unique (odd) socks, paired 
 
 The .png for these plots, along with the data files for creating the plots, 
 will be stored in the `bin` folder with the executable. 
+
+If you would like to run the code in parallel, simply call `make parallel`, 
+which will generate `bin/abc_parallel.exe` for you. The options are the same
+as in the serial case. However, you need to set the number of threads with
+`export OMP_NUM_THREADS=3` or however many threads you would like.
+
+  
