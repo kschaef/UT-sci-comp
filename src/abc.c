@@ -113,23 +113,6 @@ int main(int argc, char *argv[]){
   // which has n_socks, n_pairs, n_odd, prop_pairs, logical_flag
   match_count = sock_sim(nbR,nbP,alpha,beta,pairedCount,uniqueCount,BigVector,iter);
 
-<<<<<<< HEAD
-  //check match count
-  //printf("match count is %d\n",match_count);
-
-  // loop over BV, add good data to file
-
-  /*I don't think we need this section anymore, comment out for now
-  // get size of good values
-  j = 0;
-  for (i = 4; i < (5 * iter); i+=5){
-    if(BigVector[i] == 1){
-      j++;
-    }
-  }
-  */
-=======
->>>>>>> b3acfed4f5734b83b2d2f7849bc2c58f1ec3c254
 
   // alloc vectors
   nSocks = (double*) malloc(match_count * sizeof(double));
@@ -177,6 +160,7 @@ int main(int argc, char *argv[]){
 
   free(nSocks); free(nPairs); free(nOdd); free(propPairs);
   free(BigVector);
+
 
   return(0);
 }
