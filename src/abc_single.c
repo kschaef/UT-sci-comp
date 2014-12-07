@@ -26,16 +26,12 @@ int main(int argc, char *argv[]){
   stdSocks = 15;
   pairType = "small";
   
-  
-
 
   int i, j, k;
   double *nSocks, *nPairs, *nOdd, *propPairs;
   double *BigVector;
   BigVector = (double *)malloc(sizeof(double)*iter*5);
  
-  /*double BigVector[iter * 5] = {1, 2, 3, 4, 0, 1, 2, 3, 4, 1, 6, 7, 8, 9, 1,
-    11, 12, 13, 14, 1};*/
   double medSocks, medPairs, medOdd, medPropPairs;
 
 
@@ -79,7 +75,8 @@ int main(int argc, char *argv[]){
         //strcpy(pairType, optarg);
         break;
       case '?':
-        if (optopt == 'm' || optopt == 's' || optopt == 'p')
+        if (optopt == 'm' || optopt == 's' || optopt == 'p' || optopt == 's' ||
+            optopt == 'n')
           fprintf (stderr, "Option -%c requires an argument.\n", optopt);
         else if (isprint (optopt))
           fprintf (stderr, "Unknown option `-%c'.\n", optopt);
@@ -111,15 +108,12 @@ int main(int argc, char *argv[]){
   }
   beta = 2;
 
- //set bigvec to 0
- for(i=0;i<5*iter;i++){
-   BigVector[i]=0.0;
- }
 
   // call sock_sim(...) in parallel, returns BigVector of matrix
   // which has n_socks, n_pairs, n_odd, prop_pairs, logical_flag
   match_count = sock_sim(nbR,nbP,alpha,beta,pairedCount,uniqueCount,BigVector,iter);
 
+<<<<<<< HEAD
   //check match count
   //printf("match count is %d\n",match_count);
 
@@ -134,9 +128,10 @@ int main(int argc, char *argv[]){
     }
   }
   */
+=======
+>>>>>>> b3acfed4f5734b83b2d2f7849bc2c58f1ec3c254
 
   // alloc vectors
-  //Carlos is changing j to match_count
   nSocks = (double*) malloc(match_count * sizeof(double));
   nPairs = (double*) malloc(match_count * sizeof(double));
   nOdd = (double*) malloc(match_count * sizeof(double));
@@ -155,14 +150,12 @@ int main(int argc, char *argv[]){
   }
 
   // write to file
-  //again changing j to match_count
-  printVector("num_socks.dat", nSocks, match_count);
-  printVector("num_pairs.dat", nPairs, match_count);
-  printVector("num_odd.dat", nOdd, match_count);
-  printVector("prop_pairs.dat", propPairs, match_count);
+  printVector("bin/num_socks.dat", nSocks, match_count);
+  printVector("bin/num_pairs.dat", nPairs, match_count);
+  printVector("bin/num_odd.dat", nOdd, match_count);
+  printVector("bin/prop_pairs.dat", propPairs, match_count);
 
   // get median estimates
-  //again changing j to match_count
   gsl_sort(nSocks, 1, match_count);
   gsl_sort(nPairs, 1, match_count);
   gsl_sort(nOdd, 1, match_count);

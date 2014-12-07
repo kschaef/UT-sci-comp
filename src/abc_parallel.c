@@ -10,11 +10,11 @@
 #include <gsl_sort_float.h>
 #include "helper.h"
 
-#define iter 4
+#define iter 10000
 
 int main(int argc, char *argv[]){
 
-  int c, index, argCount, meanSocks, stdSocks, uniqueCount, pairedCount;
+  int c, index, argCount, meanSocks, stdSocks, uniqueCount, pairedCount,match_count;
   double alpha, beta, nbP, nbR;
   char *pairType = malloc(10);
   char *tmp = malloc(10);
@@ -23,15 +23,17 @@ int main(int argc, char *argv[]){
   meanSocks = 30;
   uniqueCount = 11;
   pairedCount = 0;
+  stdSocks = 15;
   pairType = "small";
-
+  
 
   int i, j, k;
   double *nSocks, *nPairs, *nOdd, *propPairs;
-  //double BigVector[iter * 5];
-  double BigVector[iter * 5] = {1, 2, 3, 4, 0, 1, 2, 3, 4, 1, 6, 7, 8, 9, 1,
-    11, 12, 13, 14, 1};
+  double *BigVector;
+  BigVector = (double *)malloc(sizeof(double)*iter*5);
+ 
   double medSocks, medPairs, medOdd, medPropPairs;
+
 
   // I/O for all variables: sample counts 1 & 2, sample size, 
   // sock prior, pair prior
@@ -69,10 +71,11 @@ int main(int argc, char *argv[]){
           fprintf(stderr, "-n requires either 'small' or 'large'\n");
           return(1);
         }
-        strcpy(pairType, optarg);
+	pairType = optarg;
         break;
       case '?':
-        if (optopt == 'm' || optopt == 's' || optopt == 'p')
+        if (optopt == 'm' || optopt == 's' || optopt == 'p' || optopt == 's' ||
+            optopt == 'n')
           fprintf (stderr, "Option -%c requires an argument.\n", optopt);
         else if (isprint (optopt))
           fprintf (stderr, "Unknown option `-%c'.\n", optopt);
@@ -84,7 +87,6 @@ int main(int argc, char *argv[]){
       default:
         abort ();
       }
-
   if (stdSocks == 0){
     stdSocks = meanSocks / 2; // integer division intentional
   }
@@ -93,8 +95,6 @@ int main(int argc, char *argv[]){
   printf("\t%d paired socks\n", pairedCount);
   printf("\t%d estimated total socks +- %d socks\n", meanSocks, stdSocks);
   printf("\t%s proportion of paired socks\n", pairType);
-  
-
 
   // build prior params from inputs
   nbP = meanSocks * 1.0  / (stdSocks * stdSocks);
@@ -107,25 +107,22 @@ int main(int argc, char *argv[]){
   }
   beta = 2;
 
+ //set bigvec to 0
+ for(i=0;i<5*iter;i++){
+   BigVector[i]=0.0;
+ }
 
   // call sock_sim(...) in parallel, returns BigVector of matrix
   // which has n_socks, n_pairs, n_odd, prop_pairs, logical_flag
+  match_count = sock_sim(nbR,nbP,alpha,beta,pairedCount,uniqueCount,BigVector,iter);
 
-  // loop over BV, add good data to file
 
-  // get size of good values
-  j = 0;
-  for (i = 4; i < (5 * iter); i+=5){
-    if(BigVector[i] == 1){
-      j++;
-    }
-  }
 
   // alloc vectors
-  nSocks = (double*) malloc(j * sizeof(double));
-  nPairs = (double*) malloc(j * sizeof(double));
-  nOdd = (double*) malloc(j * sizeof(double));
-  propPairs = (double*) malloc(j * sizeof(double));  
+  nSocks = (double*) malloc(match_count * sizeof(double));
+  nPairs = (double*) malloc(match_count * sizeof(double));
+  nOdd = (double*) malloc(match_count * sizeof(double));
+  propPairs = (double*) malloc(match_count * sizeof(double));  
 
   // fill vectors
   k = 0;
@@ -140,30 +137,33 @@ int main(int argc, char *argv[]){
   }
 
   // write to file
-  printVector("bin/num_socks.dat", nSocks, j);
-  printVector("bin/num_pairs.dat", nPairs, j);
-  printVector("bin/num_odd.dat", nOdd, j);
-  printVector("bin/prop_pairs.dat", propPairs, j);
+  printVector("bin/num_socks.dat", nSocks, match_count);
+  printVector("bin/num_pairs.dat", nPairs, match_count);
+  printVector("bin/num_odd.dat", nOdd, match_count);
+  printVector("bin/prop_pairs.dat", propPairs, match_count);
 
   // get median estimates
-  gsl_sort(nSocks, 1, j);
-  gsl_sort(nPairs, 1, j);
-  gsl_sort(nOdd, 1, j);
-  gsl_sort(propPairs, 1, j);
+  gsl_sort(nSocks, 1, match_count);
+  gsl_sort(nPairs, 1, match_count);
+  gsl_sort(nOdd, 1, match_count);
+  gsl_sort(propPairs, 1, match_count);
 
-  medSocks = gsl_stats_median_from_sorted_data(nSocks, 1, j);
-  medPairs = gsl_stats_median_from_sorted_data(nPairs, 1, j);
-  medOdd = gsl_stats_median_from_sorted_data(nOdd, 1, j);
-  medPropPairs = gsl_stats_median_from_sorted_data(propPairs, 1, j);
- 
-  printf("\nEstimated number of socks: %d\n", (int) medSocks);
+  medSocks = gsl_stats_median_from_sorted_data(nSocks, 1, match_count);
+  medPairs = gsl_stats_median_from_sorted_data(nPairs, 1, match_count);
+  medOdd = gsl_stats_median_from_sorted_data(nOdd, 1, match_count);
+  medPropPairs = gsl_stats_median_from_sorted_data(propPairs, 1, match_count);
+
+  //for the stdout summary
+  int est_socks = (int) 2*medPairs + medOdd;
+  
+  printf("\nEstimated number of socks: %d\n", est_socks);
   printf("Estimated number of pairs: %d\n", (int) medPairs);
   printf("Estimated number of unmatched socks: %d\n", (int) medOdd);
   printf("Estimated proportion of paired socks: %.3lf\n", medPropPairs);
 
 
   free(nSocks); free(nPairs); free(nOdd); free(propPairs);
-
+  free(BigVector);
 
   return(0);
 }
